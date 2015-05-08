@@ -10,5 +10,5 @@ $ sudo auth_portal.sh
 and open another terminal
 
 ```bash
-ruby webportal.rb # as normal user
+$ ruby webportal.rb # as normal user
 ```
