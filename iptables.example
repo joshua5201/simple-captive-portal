@@ -1,5 +1,5 @@
 # redirecting all http connections to port 4567
-# i don't know how to handle https connections so i redirect them, too
+# i don't know how to handle https connections so i just REJECT them
 
 iptables -t nat -A PREROUTING -p tcp -m iprange --src-range 10.0.0.100-10.0.0.253 --dport 80 -j DNAT --to-destination 10.0.0.1:4567
-iptables -t nat -A PREROUTING -p tcp -m iprange --src-range 10.0.0.100-10.0.0.253 --dport 443 -j DNAT --to-destination 10.0.0.1:4567
+iptables -t filter -A FORWARD -p tcp -m iprange --src-range 10.0.0.100-10.0.0.253 --dport 443 -j REJECT --reject-with tcp-reset

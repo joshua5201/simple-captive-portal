@@ -41,7 +41,7 @@ do
                 iptables -t nat -I PREROUTING 1 -s $authipaddr -p tcp --dport 80 -j REDIRECT --to-ports 3128                  
                 #iptables -t nat -I PREROUTING 1 -s $authipaddr -p tcp --dport 80 -j ACCEPT 
                 #iptables -t nat -I PREROUTING 1 -s $authipaddr -p tcp --dport 443 -j ACCEPT
-                iptables -t filter -I FORWARD 1 -s $authipaddr -j ACCEPT
+                iptables -t filter -I FORWARD 1 -s $authipaddr -p tcp --dport 443 -j ACCEPT
                 passed=true
                 echo "auth passed"
                 break
