@@ -7,6 +7,7 @@ res_pipe=/tmp/captive_res
 
 user=joshua5201
 group=joshua5201
+extif=enp0s3
 
 trap "rm -f $auth_pipe $res_pipe" EXIT
 if [[ ! -p $auth_pipe ]]; then
@@ -34,13 +35,13 @@ do
         passed=false
         while read authdata
         do
-            echo $authdata
             if [[ "$authuser;$authpasswd" == "$authdata" ]]; then
                 echo "passed" > $res_pipe
                 #requirement of NA course (redirecting to proxy)
                 iptables -t nat -I PREROUTING 1 -s $authipaddr -p tcp --dport 80 -j REDIRECT --to-ports 3128                  
                 #iptables -t nat -I PREROUTING 1 -s $authipaddr -p tcp --dport 80 -j ACCEPT 
-                iptables -t nat -I PREROUTING 1 -s $authipaddr -p tcp --dport 443 -j ACCEPT
+                #iptables -t nat -I PREROUTING 1 -s $authipaddr -p tcp --dport 443 -j ACCEPT
+                iptables -t filter -I FORWARD 1 -s $authipaddr -j ACCEPT
                 passed=true
                 echo "auth passed"
                 break
